@@ -18,5 +18,9 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@nuxt/icon"],
+
+  modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@nuxt/icon", "nuxt-gtag"],
+  gtag: {
+    id: "G-15491B8YEM",
+  },
 });
