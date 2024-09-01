@@ -5,6 +5,8 @@ export default defineNuxtConfig({
   ssr: false,
   css: ["~/assets/css/main.css"],
   app: {
+    baseURL: "/game-changer",
+    buildAssetsDir: "assets",
     head: {
       title: "Game Changer x Spark Education",
     },
