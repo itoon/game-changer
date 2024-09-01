@@ -16,6 +16,7 @@
     "@nuxt/schema": "3.13.0",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "nuxt": "^3.12.4",
+    "nuxt-gtag": "^3.0.1",
     "vue": "latest"
   },
   "devDependencies": {
