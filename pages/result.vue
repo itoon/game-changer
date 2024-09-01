@@ -4,19 +4,14 @@
       <main
         class="container max-w-xl px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-5 pb-4 flex flex-col lg:pt-10"
       >
-        <div class="px-4 py-6 bg-white rounded-3xl min-h-[75vh]">
+        <div class="px-4 py-6 bg-white rounded-3xl min-h-[75vh] relative">
           <div
-            class="flex flex-col justify-between gap-2 col-span-full md:col-start-4 md:col-end-10 md:py-6 md:gap-4"
+            class="flex flex-col justify-between gap-2 col-span-full md:col-start-4 md:col-end-10 md:py-6"
           >
-            <p class="text-lg font-bold text-center md:text-xl">
-              และตัวละครของคุณก็คือ
-            </p>
+            <div class="text-lg font-bold text-center md:text-xl">
+              ตัวละครของ {{ profileState.displayName }} คือ..
+            </div>
             <div class="w-[90%] lg:w-64 my-4 relative text-center mx-auto">
-              <img
-                :src="profileState.pictureUrl"
-                alt=""
-                class="absolute w-12 rounded-full right-6 top-6"
-              />
               <img
                 v-if="character.image"
                 :src="character.image"
