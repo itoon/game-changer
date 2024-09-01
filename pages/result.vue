@@ -1,45 +1,40 @@
 <template>
-  <div class="bg-[#072462]">
-    <nav
-      class="absolute w-full p-4 z-10 flex items-center justify-center md:justify-between gap-x-1 lg:gap-x-10 md:px-[120px] px-4 py-2 transition-all"
-    >
-      <div class="flex w-full gap-x-2 lg:px-2">
-        <div class="flex-1 flex gap-2 py-[20px] md:px-20">
-          <div class="w-full overflow-hidden bg-[#01102E] rounded-full">
-            <div
-              class="h-2 transition-all bg-[#3C6AA5] rounded-full"
-              style="width: 100%"
-            ></div>
-          </div>
-        </div>
-      </div>
-    </nav>
+  <div class="bg-main">
     <div class="min-h-screen">
       <main
-        class="container max-w-xl px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-16 pb-4 flex flex-col"
+        class="container max-w-xl px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-5 pb-4 flex flex-col lg:pt-10"
       >
         <div class="px-4 py-6 bg-white rounded-3xl min-h-[75vh]">
           <div
             class="flex flex-col justify-between gap-2 col-span-full md:col-start-4 md:col-end-10 md:py-6 md:gap-4"
           >
-            <p class="mt-5 mb-5 text-lg font-bold text-center md:text-xl">
-              และตัวละครของคุณก็คือ {{ type }}
+            <p class="text-lg font-bold text-center md:text-xl">
+              และตัวละครของคุณก็คือ
             </p>
-            <img
-              v-if="character.image"
-              :src="character.image"
-              class="w-full mx-auto lg:w-64"
-            />
+            <div class="w-[90%] lg:w-64 my-4 relative text-center mx-auto">
+              <img
+                :src="profileState.pictureUrl"
+                alt=""
+                class="absolute w-12 rounded-full right-6 top-6"
+              />
+              <img
+                v-if="character.image"
+                :src="character.image"
+                class="mx-auto rounded-2xl"
+              />
+            </div>
+            <p class="font-bold text-center">{{ type }}</p>
             <p class="text-center">{{ character.text }}</p>
           </div>
         </div>
       </main>
-      <footer class="absolute bottom-0 w-full bg-white">
+      <footer class="fixed bottom-0 w-full pb-10 bg-white lg:pb-0">
         <div class="container p-4 mx-auto md:flex md:justify-end">
           <button
             class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold"
+            @click="sendMessage"
           >
-            Save to Line
+            Send to Line
           </button>
         </div>
       </footer>
@@ -48,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import liff from "@line/liff";
 import result from "~/data/result.json";
 const loading = ref(true);
 const route = useRoute();
@@ -66,9 +62,51 @@ type TypeAnswer =
   | "The Sage";
 const type = route.query.type as TypeAnswer;
 const character = result[type];
+
+const profileState = ref({
+  userId: "",
+  pictureUrl: "",
+  displayName: "",
+});
 setTimeout(() => {
   loading.value = false;
 }, 1000);
+
+onMounted(async () => {
+  liff.init({ liffId: "2006128725-X46e02An" });
+  liff.ready.then(() => {
+    if (liff.isLoggedIn()) {
+      liff.getProfile().then((profile) => {
+        profileState.value = profile;
+      });
+    } else {
+      liff.login();
+    }
+  });
+});
+
+const sendMessage = () => {
+  const image =
+    "https://itoon.github.io/game-changer/" + encodeURI(character.image);
+  liff
+    .sendMessages([
+      {
+        type: "text",
+        text: type + "\n" + character.text,
+      },
+      {
+        type: "image",
+        originalContentUrl: image,
+        previewImageUrl: image,
+      },
+    ])
+    .then(() => {
+      liff.closeWindow();
+    })
+    .catch((err) => {
+      alert(err);
+    });
+};
 </script>
 
 <style lang="css" scoped>

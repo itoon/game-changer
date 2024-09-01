@@ -9,6 +9,13 @@ export default defineNuxtConfig({
     buildAssetsDir: "assets",
     head: {
       title: "Game Changer x Spark Education",
+      link: [
+        {
+          rel: "icon",
+          type: "image/png",
+          href: "/game-changer/logo.png",
+        },
+      ],
     },
   },
   modules: ["@nuxtjs/tailwindcss", "@nuxt/image", "@nuxt/icon"],

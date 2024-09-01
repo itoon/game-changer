@@ -1,6 +1,7 @@
 <template>
   <div class="bg-main">
     <nav
+      v-show="isStart"
       class="absolute w-full p-4 z-10 flex items-center justify-center md:justify-between gap-x-1 lg:gap-x-10 md:px-[120px] px-4 py-2 transition-all"
     >
       <div class="flex w-full max-w-5xl mx-auto gap-x-2 lg:px-2">
@@ -22,6 +23,42 @@
     </nav>
     <div class="min-h-screen">
       <main
+        v-if="!isStart"
+        class="container max-w-5xl px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-10 pb-4 flex flex-col"
+      >
+        <div
+          class="px-4 py-6 bg-white rounded-3xl min-h-[75vh] md:py-20 md:px-20 md:min-h-0"
+        >
+          <img src="/logo.png" class="w-40 mx-auto" />
+          <img
+            :src="profileState.pictureUrl"
+            class="w-24 mx-auto mt-4 mb-4 rounded-full"
+          />
+          <div class="mt-4 text-center">
+            <h1 class="font-bold">
+              สวัสดีนักผจญภัย! {{ profileState.displayName }}
+            </h1>
+            คุณได้รับเลือกให้เข้าร่วมทีมเพื่อออกค้นหาสมบัติในดินแดนลึกลับ
+            <br class="hidden lg:block" />
+            แต่ก่อนออกเดินทาง
+            เราต้องรู้ก่อนว่าคุณมีพลังพิเศษอะไรที่จะช่วยทีมได้บ้าง
+            <br class="hidden lg:block" />มาค้นหาพลังที่ซ่อนอยู่ในตัวคุณกันเถอะ!
+            <br class="lg:block" />
+            <br class="lg:block" />
+            <h2 class="font-bold">วิธีเล่น!</h2>
+            อ่านแต่ละสถานการณ์แล้วเลือกคำตอบที่ตรงกับตัวคุณมากที่สุด<br
+              class="hidden lg:block"
+            />
+            แต่ละคำตอบจะบ่งบอกถึงพลังพิเศษที่คุณมี!
+          </div>
+          <div class="flex justify-center gap-2 mt-10 text-center">
+            <p>Powered by</p>
+            <img src="/spark-logo.png" class="w-20" />
+          </div>
+        </div>
+      </main>
+      <main
+        v-else
         class="container max-w-5xl px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-16 pb-4 flex flex-col md:pt-32"
       >
         <div
@@ -51,7 +88,20 @@
           </div>
         </div>
       </main>
-      <footer class="absolute bottom-0 w-full bg-white" v-show="step == 1">
+      <footer class="fixed bottom-0 w-full pb-10 bg-white" v-show="!isStart">
+        <div class="container p-4 mx-auto md:flex md:justify-end">
+          <button
+            class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold"
+            @click="isStart = true"
+          >
+            เริ่มทดสอบ
+          </button>
+        </div>
+      </footer>
+      <footer
+        class="fixed bottom-0 w-full pb-10 bg-white lg:pb-0"
+        v-show="step == 1 && isStart"
+      >
         <div class="container p-4 mx-auto md:flex md:justify-end">
           <button
             class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold"
@@ -62,7 +112,10 @@
           </button>
         </div>
       </footer>
-      <footer class="absolute bottom-0 w-full bg-white" v-show="step == 2">
+      <footer
+        class="fixed bottom-0 w-full pb-10 bg-white lg:pb-0"
+        v-show="step == 2 && isStart"
+      >
         <div class="container p-4 mx-auto md:flex md:justify-end">
           <button
             class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold"
@@ -78,6 +131,26 @@
 </template>
 
 <script setup lang="ts">
+import liff from "@line/liff";
+const profileState = ref({
+  userId: "",
+  pictureUrl: "",
+  displayName: "",
+});
+const isStart = ref(false);
+onMounted(async () => {
+  liff.init({ liffId: "2006128725-X46e02An" });
+  liff.ready.then(() => {
+    if (liff.isLoggedIn()) {
+      liff.getProfile().then((profile) => {
+        profileState.value = profile;
+      });
+    } else {
+      liff.login();
+    }
+  });
+});
+
 type TypeAnswer =
   | "Action"
   | "People"

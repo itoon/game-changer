@@ -12,6 +12,7 @@
     "deploy": "gh-pages --dotfiles -d .output/public"
   },
   "dependencies": {
+    "@line/liff": "^2.24.0",
     "@nuxt/icon": "^1.4.5",
     "@nuxt/image": "^1.7.0",
     "@nuxt/kit": "3.13.0",
