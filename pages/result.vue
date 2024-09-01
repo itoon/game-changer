@@ -25,7 +25,11 @@
             <p class="mt-5 mb-5 text-lg font-bold text-center md:text-xl">
               และตัวละครของคุณก็คือ {{ type }}
             </p>
-            <NuxtImg :src="character.image" class="w-full mx-auto lg:w-64" />
+            <NuxtImg
+              v-if="character.image"
+              :src="character.image"
+              class="w-full mx-auto lg:w-64"
+            />
             <p class="text-center">{{ character.text }}</p>
           </div>
         </div>
