@@ -28,7 +28,7 @@
           class="px-4 py-6 bg-white rounded-3xl min-h-[75vh] md:py-20 md:px-20 md:min-h-0"
         >
           <div
-            class="inline-flex flex-col gap-2 h-fit col-span-full md:py-6 md:gap-4 md:flex md:justify-between lg:py-0"
+            class="inline-flex flex-col w-full gap-2 h-fit col-span-full md:py-6 md:gap-4 md:flex md:justify-between lg:py-0"
           >
             <p class="text-lg font-bold text-center lg:text-3xl">
               {{ renderQuestion.question }}
@@ -82,15 +82,15 @@ type TypeAnswer =
   | "Action"
   | "People"
   | "Thought"
-  | "Shaper"
-  | "Implementer"
-  | "Completer Finisher"
-  | "Coordinator"
-  | "Team worker"
-  | "Resource Investigator"
-  | "Plant"
-  | "Monitor Evaluator"
-  | "Specialist";
+  | "The Dynamo"
+  | "The Doer"
+  | "The Perfectionist"
+  | "The Maestro"
+  | "The Harmonizer"
+  | "The Networker"
+  | "The Imagineer"
+  | "The Oracle"
+  | "The Sage";
 
 const select = ref<{
   text: string;
@@ -106,7 +106,8 @@ const questions = ref(typeQuestions.sort(() => Math.random() - 0.5));
 const renderQuestion = computed(() => questions.value[index.value]);
 const renderChoices = computed(() => {
   const answers = [...renderQuestion.value.answers];
-  return answers.sort(() => Math.random() - 0.5);
+  // return answers.sort(() => Math.random() - 0.5);
+  return renderQuestion.value.answers;
 });
 
 const selected = (choice: { text: string; value: TypeAnswer }) => {
@@ -146,30 +147,31 @@ const submit1Step = () => {
 };
 
 const characterAnswers = ref({
-  Shaper: 0,
-  Implementer: 0,
-  "Completer Finisher": 0,
-  Coordinator: 0,
-  "Team worker": 0,
-  "Resource Investigator": 0,
-  Plant: 0,
-  "Monitor Evaluator": 0,
-  Specialist: 0,
+  "The Dynamo": 0,
+  "The Doer": 0,
+  "The Perfectionist": 0,
+  "The Maestro": 0,
+  "The Harmonizer": 0,
+  "The Networker": 0,
+  "The Imagineer": 0,
+  "The Oracle": 0,
+  "The Sage": 0,
 });
 
 const router = useRouter();
 
 const submit2Step = () => {
+  console.log(select.value.value);
   if (
-    select.value?.value == "Shaper" ||
-    select.value?.value == "Implementer" ||
-    select.value?.value == "Completer Finisher" ||
-    select.value?.value == "Coordinator" ||
-    select.value?.value == "Team worker" ||
-    select.value?.value == "Resource Investigator" ||
-    select.value?.value == "Plant" ||
-    select.value?.value == "Monitor Evaluator" ||
-    select.value?.value == "Specialist"
+    select.value?.value == "The Dynamo" ||
+    select.value?.value == "The Doer" ||
+    select.value?.value == "The Perfectionist" ||
+    select.value?.value == "The Maestro" ||
+    select.value?.value == "The Harmonizer" ||
+    select.value?.value == "The Networker" ||
+    select.value?.value == "The Imagineer" ||
+    select.value?.value == "The Oracle" ||
+    select.value?.value == "The Sage"
   ) {
     characterAnswers.value[select.value.value] += 1;
     if (characterAnswers.value[select.value.value] >= 2) {

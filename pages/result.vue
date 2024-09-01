@@ -16,20 +16,17 @@
     </nav>
     <div class="min-h-screen">
       <main
-        class="container max-w-[1366px] px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-16 pb-4 flex flex-col"
+        class="container max-w-xl px-4 xl:px-[103px] mx-auto gap-x-6 h-full pt-16 pb-4 flex flex-col"
       >
         <div class="px-4 py-6 bg-white rounded-3xl min-h-[75vh]">
           <div
             class="flex flex-col justify-between gap-2 col-span-full md:col-start-4 md:col-end-10 md:py-6 md:gap-4"
           >
             <p class="mt-5 mb-5 text-lg font-bold text-center md:text-xl">
-              และตัวละครของคุณก็คือ....
+              และตัวละครของคุณก็คือ {{ type }}
             </p>
-            <NuxtImg
-              v-if="!loading"
-              :src="'characters/' + $route.query.type + '.png'"
-              class="w-full"
-            />
+            <NuxtImg :src="character.image" class="w-full mx-auto lg:w-64" />
+            <p class="text-center">{{ character.text }}</p>
           </div>
         </div>
       </main>
@@ -47,7 +44,24 @@
 </template>
 
 <script setup lang="ts">
+import result from "~/data/result.json";
 const loading = ref(true);
+const route = useRoute();
+type TypeAnswer =
+  | "Action"
+  | "People"
+  | "Thought"
+  | "The Dynamo"
+  | "The Doer"
+  | "The Perfectionist"
+  | "The Maestro"
+  | "The Harmonizer"
+  | "The Networker"
+  | "The Imagineer"
+  | "The Oracle"
+  | "The Sage";
+const type = route.query.type as TypeAnswer;
+const character = result[type];
 setTimeout(() => {
   loading.value = false;
 }, 1000);
