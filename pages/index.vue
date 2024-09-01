@@ -187,8 +187,8 @@ const questions = ref(typeQuestions.sort(() => Math.random() - 0.5));
 const renderQuestion = computed(() => questions.value[index.value]);
 const renderChoices = computed(() => {
   const answers = [...renderQuestion.value.answers];
-  // return answers.sort(() => Math.random() - 0.5);
-  return renderQuestion.value.answers;
+  return answers.sort(() => Math.random() - 0.5);
+  // return renderQuestion.value.answers;
 });
 
 const selected = (choice: { text: string; value: TypeAnswer }) => {
