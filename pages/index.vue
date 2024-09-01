@@ -97,6 +97,7 @@
         <div class="container p-4 mx-auto md:flex md:justify-end">
           <button
             class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold"
+            :disabled="isLoading"
             @click="isStart = true"
           >
             เริ่มทดสอบ
@@ -142,6 +143,7 @@ const profileState = ref({
   pictureUrl: "",
   displayName: "",
 });
+const isLoading = ref(true);
 const isStart = ref(false);
 onMounted(async () => {
   liff.init({ liffId: "2006128725-X46e02An" });
@@ -150,6 +152,7 @@ onMounted(async () => {
       liff.getProfile().then((profile) => {
         profileState.value = profile;
       });
+      isLoading.value = false;
     } else {
       liff.login();
     }
