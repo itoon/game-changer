@@ -75,16 +75,16 @@ setTimeout(() => {
 }, 1000);
 
 onMounted(async () => {
-  // liff.init({ liffId: "2006128725-X46e02An" });
-  // liff.ready.then(() => {
-  //   if (liff.isLoggedIn()) {
-  //     liff.getProfile().then((profile) => {
-  //       profileState.value = profile;
-  //     });
-  //   } else {
-  //     liff.login();
-  //   }
-  // });
+  liff.init({ liffId: "2006228745-Kv8mAomW" });
+  liff.ready.then(() => {
+    if (liff.isLoggedIn()) {
+      liff.getProfile().then((profile) => {
+        profileState.value = profile;
+      });
+    } else {
+      liff.login();
+    }
+  });
 });
 
 const sendMessage = () => {
