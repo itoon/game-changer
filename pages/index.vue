@@ -119,7 +119,7 @@
         </div>
       </footer>
       <footer
-        class="fixed bottom-0 w-full pb-10 bg-white lg:pb-0"
+        class="fixed bottom-0 w-full pb-5 bg-white lg:pb-0"
         v-show="step == 2 && isStart"
       >
         <div class="container p-4 mx-auto md:flex md:justify-end">

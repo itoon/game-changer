@@ -23,14 +23,21 @@
           </div>
         </div>
       </main>
-      <footer class="fixed bottom-0 w-full pb-10 bg-white lg:pb-0">
+      <footer class="fixed bottom-0 w-full pb-5 bg-white lg:pb-0">
         <div class="container p-4 mx-auto md:flex md:justify-end">
           <button
-            class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold"
+            class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold lg:hidden"
             @click="sendMessage"
           >
             Send to Line
           </button>
+          <a
+            class="bg-black disabled:bg-[#b0bec5] rounded-lg text-white w-full z-10 text-center min-h-[40px] md:min-h-[59px] px-2 min-w-[100px] md:w-full md:max-w-[172px] md:min-w-[172px] md:!leading-[150%] md:!py-4 transition-all duration-75 disabled btn-primary md:!h-14 font-bold hidden lg:block"
+            :href="character.image"
+            :download="character.image"
+          >
+            Save Character
+          </a>
         </div>
       </footer>
     </div>
@@ -68,16 +75,16 @@ setTimeout(() => {
 }, 1000);
 
 onMounted(async () => {
-  liff.init({ liffId: "2006128725-X46e02An" });
-  liff.ready.then(() => {
-    if (liff.isLoggedIn()) {
-      liff.getProfile().then((profile) => {
-        profileState.value = profile;
-      });
-    } else {
-      liff.login();
-    }
-  });
+  // liff.init({ liffId: "2006128725-X46e02An" });
+  // liff.ready.then(() => {
+  //   if (liff.isLoggedIn()) {
+  //     liff.getProfile().then((profile) => {
+  //       profileState.value = profile;
+  //     });
+  //   } else {
+  //     liff.login();
+  //   }
+  // });
 });
 
 const sendMessage = () => {
