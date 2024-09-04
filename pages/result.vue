@@ -45,6 +45,10 @@
 </template>
 
 <script setup lang="ts">
+import { collection, addDoc } from "firebase/firestore";
+const nuxtApp = useNuxtApp();
+const db = nuxtApp.$db;
+
 import liff from "@line/liff";
 import result from "~/data/result.json";
 const loading = ref(true);
@@ -78,8 +82,16 @@ onMounted(async () => {
   liff.init({ liffId: "2006228745-Kv8mAomW" });
   liff.ready.then(() => {
     if (liff.isLoggedIn()) {
-      liff.getProfile().then((profile) => {
+      liff.getProfile().then(async (profile) => {
         profileState.value = profile;
+        try {
+          const docRef = await addDoc(collection(db, "users"), {
+            ...profile,
+            type: type,
+          });
+        } catch (error) {
+          console.log(error);
+        }
       });
     } else {
       liff.login();

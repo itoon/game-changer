@@ -149,7 +149,7 @@ onMounted(async () => {
   liff.init({ liffId: "2006228745-Kv8mAomW" });
   liff.ready.then(() => {
     if (liff.isLoggedIn()) {
-      liff.getProfile().then((profile) => {
+      liff.getProfile().then(async (profile) => {
         profileState.value = profile;
       });
       isLoading.value = false;
